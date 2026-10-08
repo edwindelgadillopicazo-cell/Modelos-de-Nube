@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos de Implementación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary: #a855f7; /* Tono morado para diferenciar de la página 1 */
+            --primary-glow: rgba(168, 85, 247, 0.5);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 85% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 15% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Elementos de fondo borrosos */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: move 10s infinite alternate;
+        }
+        .blob-1 {
+            top: 20%; right: -10%;
+            width: 500px; height: 500px;
+            background: rgba(168, 85, 247, 0.3);
+        }
+        .blob-2 {
+            bottom: -10%; left: -10%;
+            width: 400px; height: 400px;
+            background: rgba(236, 72, 153, 0.3);
+            animation-delay: -5s;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(-50px, 50px) scale(1.1); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 50px;
+            color: #d8b4fe;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contenido Principal (Glassmorphism Vertical) */
+        .glass-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .list-item {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2.5rem 3rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 1s ease-out both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .list-item:nth-child(1) { animation-delay: 0.2s; }
+        .list-item:nth-child(2) { animation-delay: 0.4s; }
+        .list-item:nth-child(3) { animation-delay: 0.6s; }
+
+        .list-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .list-item:hover {
+            transform: translateX(10px);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: -10px 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+
+        .list-item:hover::before { opacity: 1; }
+
+        .icon-box {
+            width: 80px; height: 80px;
+            flex-shrink: 0;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            transition: transform 0.4s ease;
+        }
+
+        .list-item:hover .icon-box { transform: scale(1.1) rotate(-5deg); }
+
+        .content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Botón estilo Tech */
+        .btn-prev {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .btn-prev:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2);
+        }
+
+        .text-center { text-align: center; }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.8rem; }
+            .list-item { flex-direction: column; text-align: center; gap: 1.5rem; padding: 2rem; }
+            .list-item:hover { transform: translateY(-10px) translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<div class="container">
+    <header>
+        <div class="badge">Estructura Avanzada</div>
+        <h1>Modelos de Nube</h1>
+        <p>¿Dónde reside físicamente la información y quién tiene acceso a ella? Conoce los tres enfoques principales de despliegue.</p>
+    </header>
+
+    <div class="glass-list">
+        
+        <!-- Nube Pública -->
+        <div class="list-item">
+            <div class="icon-box">🌍</div>
+            <div class="content">
+                <h2>Nube Pública</h2>
+                <p>Infraestructura masiva administrada por gigantes tecnológicos (AWS, Google Cloud). Es la opción más común, donde los recursos se comparten entre múltiples organizaciones a través de Internet público, reduciendo drásticamente los costos operativos.</p>
+            </div>
+        </div>
+
+        <!-- Nube Privada -->
+        <div class="list-item">
+            <div class="icon-box">🏢</div>
+            <div class="content">
+                <h2>Nube Privada</h2>
+                <p>Un entorno de nube dedicado exclusivamente a una sola empresa. Ofrece el máximo nivel de seguridad y control, ideal para instituciones financieras o gubernamentales que manejan datos altamente confidenciales.</p>
+            </div>
+        </div>
+
+        <!-- Nube Híbrida -->
+        <div class="list-item">
+            <div class="icon-box">🔗</div>
+            <div class="content">
+                <h2>Nube Híbrida</h2>
+                <p>El punto de equilibrio perfecto. Permite mantener las bases de datos más críticas en una nube privada, pero utiliza la potencia de procesamiento ilimitada de la nube pública para aplicaciones web escalables. Ofrece lo mejor de ambos mundos.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center">
+        <a href="servicios en la nuve.html" class="btn-prev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Volver a Conceptos Básicos
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

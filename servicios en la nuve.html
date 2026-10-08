@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios en la Nube</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.5);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Elementos de fondo borrosos */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: move 10s infinite alternate;
+        }
+        .blob-1 {
+            top: -10%; left: -10%;
+            width: 500px; height: 500px;
+            background: rgba(56, 189, 248, 0.3);
+        }
+        .blob-2 {
+            bottom: -10%; right: -10%;
+            width: 400px; height: 400px;
+            background: rgba(139, 92, 246, 0.3);
+            animation-delay: -5s;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contenido Principal (Glassmorphism) */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .glass-panel h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .glass-panel p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* Grid de Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.3s; }
+        .service-card:nth-child(2) { animation-delay: 0.5s; }
+        .service-card:nth-child(3) { animation-delay: 0.7s; }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        .service-card:hover::before { opacity: 1; }
+
+        .icon-box {
+            width: 60px; height: 60px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .icon-box { transform: scale(1.1) rotate(5deg); }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Botón estilo Tech */
+        .btn-next {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .text-center { text-align: center; }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.8rem; }
+            .glass-panel { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<div class="container">
+    <header>
+        <div class="badge">Conceptos Básicos</div>
+        <h1>Servicios en la Nube</h1>
+        <p>El futuro de la infraestructura digital. Descubre cómo las empresas escalan de manera global sin servidores físicos.</p>
+    </header>
+
+    <div class="glass-panel">
+        <h2><span style="font-size: 1.5em;">☁️</span> ¿Qué es el Cloud Computing?</h2>
+        <p>Imagina poder rentar un súper ordenador ubicado al otro lado del mundo y usarlo desde tu laptop en segundos. La computación en la nube es exactamente eso: la entrega de servicios informáticos (servidores, almacenamiento, bases de datos, redes) a través de Internet. En lugar de gastar miles de dólares en hardware físico y su mantenimiento, pagas únicamente por lo que usas, como si fuera el recibo de la luz o el agua.</p>
+    </div>
+
+    <div class="services-grid">
+        <!-- Tarjeta IaaS -->
+        <div class="service-card">
+            <div class="icon-box">🏗️</div>
+            <h3>IaaS</h3>
+            <p><strong>Infraestructura como Servicio</strong><br>El bloque de construcción fundamental. Proveedores como AWS o Azure te alquilan servidores virtuales y espacio de almacenamiento. Tú tienes el control total del sistema operativo.</p>
+        </div>
+
+        <!-- Tarjeta PaaS -->
+        <div class="service-card">
+            <div class="icon-box">⚙️</div>
+            <h3>PaaS</h3>
+            <p><strong>Plataforma como Servicio</strong><br>Diseñado para programadores. El proveedor te entrega un entorno completo listo para desarrollar y alojar aplicaciones web o móviles sin configurar servidores.</p>
+        </div>
+
+        <!-- Tarjeta SaaS -->
+        <div class="service-card">
+            <div class="icon-box">💻</div>
+            <h3>SaaS</h3>
+            <p><strong>Software como Servicio</strong><br>El nivel más alto. Aplicaciones completas listas para usarse desde un navegador de internet sin instalar nada. Ejemplos: Netflix, Google Drive o Spotify.</p>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="modelos_de_nube.html" class="btn-next">
+            Siguiente: Modelos de Implementación 
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
